@@ -6,6 +6,10 @@ body{
 	padding: 2% 20% 2% 20%;
 }
 
+body:hover{
+	cursor: default;
+}
+
 h1{
 	color: #1F618D;
 	margin-left: 40%;

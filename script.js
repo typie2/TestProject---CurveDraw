@@ -36,6 +36,19 @@ window.onload = function(){
 		var rect = canvas.getBoundingClientRect();
 		var x = event.clientX - rect.left;
 		var y = event.clientY - rect.top;
+		var hover = false;
+		for(var i = 0; i < lines.length; i++){
+			var dX = lines[i][0] - x;
+			var dY = lines[i][1] - y;
+			if(Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2)) < 5){
+				hover = true;
+			}
+		}
+		if(hover){
+			document.getElementById("canvas").style.cursor = "pointer";
+		}else{
+			document.getElementById("canvas").style.cursor = "default";
+		}
 		if(dragIndex != -1){
 			lines[dragIndex][0] = x;
 			lines[dragIndex][1] = y;
@@ -104,55 +117,17 @@ function render(){
 	gc.fillRect(0, 0, canvas.width, canvas.height);
 
 	//draw base lines + circles
-	gc.strokeStyle = "#202020";
-	for(var i = 0; i < lines.length - 1; i++){
-		if(document.getElementById("pointLinesCheck").checked){
-			gc.beginPath();
-			gc.moveTo(lines[i][0], lines[i][1]);
-			gc.lineTo(lines[i + 1][0], lines[i + 1][1]);
-			gc.stroke();
-		}
-
-		//void ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
-		gc.beginPath();
-		gc.arc(lines[i][0], lines[i][1], 2.5, 0, 2 * Math.PI, false);
-		gc.stroke();
-		gc.beginPath();
-		gc.arc(lines[i][0], lines[i][1], 4.5, 0, 2 * Math.PI, false);
-		gc.stroke();
-
-		if(i == lines.length - 2){
-			gc.beginPath();
-			gc.arc(lines[i + 1][0], lines[i + 1][1], 2.5, 0, 2 * Math.PI, false);
-			gc.stroke();
-			gc.beginPath();
-			gc.arc(lines[i + 1][0], lines[i + 1][1], 4.5, 0, 2 * Math.PI, false);
-			gc.stroke();
-		}
+	if(document.getElementById("pointLinesCheck").checked){
+		drawLines(lines, "#202020", 1);
 	}
+	drawCircles(lines, "#202020", 2.5);
+	drawCircles(lines, "#202020", 4.5);
 
 	//draw other linse + points
-	gc.strokeStyle = "#505050";
 	for(var i = 0; i < points.length; i++){
-		for(var j = 0; j < points[i].length - 1; j++){
-			if(document.getElementById("calcLinesCheck").checked){
-				gc.beginPath();
-				gc.moveTo(points[i][j][0], points[i][j][1]);
-				gc.lineTo(points[i][j + 1][0], points[i][j + 1][1]);
-				gc.stroke();
-
-
-				//void ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
-				gc.beginPath();
-				gc.arc(points[i][j][0], points[i][j][1], 1.5, 0, 2 * Math.PI, false);
-				gc.stroke();
-
-				if(j == points[i].length - 2){
-					gc.beginPath();
-					gc.arc(points[i][j + 1][0], points[i][j + 1][1], 1.5, 0, 2 * Math.PI, false);
-					gc.stroke();
-				}
-			}
+		if(document.getElementById("calcLinesCheck").checked){
+			drawLines(points[i], "#505050", 1);
+			drawCircles(points[i], "#505050", 1.5);
 		}
 	}
 	if(lines.length > 0){
@@ -161,13 +136,25 @@ function render(){
 		gc.stroke();
 	}
 
-	gc.strokeStyle = "#DAF7A6";
-	gc.lineWidth = 3;
-	for(var i = 0; i < curve.length - 1; i++){
+	drawLines(curve, "#DAF7A6", 3);
+}
+
+function drawLines(list, color, width){
+	gc.strokeStyle = color;
+	gc.lineWidth = width;
+	for(var i = 0; i < list.length - 1; i++){
 		gc.beginPath();
-			gc.moveTo(curve[i][0], curve[i][1]);
-			gc.lineTo(curve[i + 1][0], curve[i + 1][1]);
-			gc.stroke();
+		gc.moveTo(list[i][0], list[i][1]);
+		gc.lineTo(list[i + 1][0], list[i + 1][1])
+		gc.stroke();
 	}
-	gc.lineWidth = 1;
+}
+
+function drawCircles(list, color, radius){ //void ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise); 2.5 4.5
+	gc.strokeStyle = color;
+	for(var i = 0; i < list.length; i++){
+		gc.beginPath();
+		gc.arc(list[i][0], list[i][1], radius, 0, 2 * Math.PI, false);
+		gc.stroke();
+	}
 }
