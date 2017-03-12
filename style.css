@@ -1,0 +1,17 @@
+*{
+	font-family: Comic Sans MS;
+}
+
+body{
+	padding: 2% 20% 2% 20%;
+}
+
+h1{
+	color: #1F618D;
+	margin-left: 40%;
+}
+
+#container{
+	margin: auto;
+	display: inline-block;
+}

@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>CurveDraw</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script type="text/javascript" type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<h1>CurveDraw</h1>
+		<div id="container">
+		<canvas width="1080" height="720" id="canvas"></canvas><br>
+			<label>Number of lines: </label><input type="number" name="number" id="numberInput" onchange="changeNumber()" value="0">
+			<input type="checkbox" name="calcLinesCheck" id="calcLinesCheck" checked="checked"><label>Show calculation-lines/points</label>
+			<input type="checkbox" name="pointLinesCheck" id="pointLinesCheck" checked="checked"><label>Show lines between points</label>
+		</div>
+	</body>
+</html>
