@@ -120,14 +120,14 @@ function render(){
 	if(document.getElementById("pointLinesCheck").checked){
 		drawLines(lines, "#202020", 1);
 	}
-	drawCircles(lines, "#202020", 2.5);
-	drawCircles(lines, "#202020", 4.5);
+	drawCircles(lines, "#202020", 2.5, 1);
+	drawCircles(lines, "#202020", 4.5, 1);
 
 	//draw other linse + points
 	for(var i = 0; i < points.length; i++){
 		if(document.getElementById("calcLinesCheck").checked){
 			drawLines(points[i], "#505050", 1);
-			drawCircles(points[i], "#505050", 1.5);
+			drawCircles(points[i], "#505050", 1.5, 1);
 		}
 	}
 	if(lines.length > 0){
@@ -150,8 +150,9 @@ function drawLines(list, color, width){
 	}
 }
 
-function drawCircles(list, color, radius){ //void ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise); 2.5 4.5
+function drawCircles(list, color, radius, width){ //void ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise); 2.5 4.5
 	gc.strokeStyle = color;
+	gc.lineWidth = width;
 	for(var i = 0; i < list.length; i++){
 		gc.beginPath();
 		gc.arc(list[i][0], list[i][1], radius, 0, 2 * Math.PI, false);
