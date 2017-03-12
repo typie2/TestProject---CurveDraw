@@ -1,7 +1,7 @@
 # TestProject - CurveDraw
 My first GitHub Project.
 Drawing a nice curve by placing some points on a canvas. The script then moves points on the lines between the points and so on...
-It's just a test so there is no big documentation.
+It's just a test so there is no fancy documentation.
 
 Be free to edit some of the code!
 
