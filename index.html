@@ -5,13 +5,40 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script type="text/javascript" type="text/javascript" src="script.js"></script>
 	</head>
-	<body>
+	<body id="body">
 		<h1>CurveDraw</h1>
 		<div id="container">
 		<canvas width="1080" height="720" id="canvas"></canvas><br>
 			<label>Number of lines: </label><input type="number" name="number" id="numberInput" onchange="changeNumber()" value="0">
 			<input type="checkbox" name="calcLinesCheck" id="calcLinesCheck" checked="checked"><label>Show calculation-lines/points</label>
 			<input type="checkbox" name="pointLinesCheck" id="pointLinesCheck" checked="checked"><label>Show lines between points</label>
+			<input type="checkbox" name="gridCheck" id="gridCheck"><label>Show grid</label>
+			<table>
+				<tr>
+					<th>Element</th>
+					<th>Color</th>
+				</tr>
+				<tr>
+					<td>Background</td>
+					<td><input type="color" name="backgroundColor" id="backgroundColor" value="#C0C0C0"></td>
+				</tr>
+				<tr>
+					<td>Grid</td>
+					<td><input type="color" name="gridColor" id="gridColor" value="#000000"></td>
+				</tr>
+				<tr>
+					<td>Basic points + lines</td>
+					<td><input type="color" name="basicsColor" id="basicsColor" value="#202020"></td>
+				</tr>
+				<tr>
+					<td>Calculated points + lines</td>
+					<td><input type="color" name="calcColor" id="calcColor" value="#505050"></td>
+				</tr>
+				<tr>
+					<td>Curve</td>
+					<td><input type="color" name="curveColor" id="curveColor" value="#DAF7A6"></td>
+				</tr>
+			</table>
 		</div>
 		<div>
 			<a href="https://github.com/typie2/TestProject---CurveDraw#testproject---curvedraw" style="color: white">Link to repository</a>

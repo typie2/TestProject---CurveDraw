@@ -3,11 +3,26 @@ var lines = [];
 var points = [];
 var dragIndex = -1;
 var down = 0;
-var curve = []
+var curve = [];
+var cursorPos = [];
+var dimensions = [];
+var fullscreen = false;
+var body = "";
+
+var backgroundColor;
+var gridColor;
+var basicsColor;
+var calcColor;
+var curveColor;
 
 window.onload = function(){
 	canvas = document.getElementById("canvas");
 	gc 		= canvas.getContext("2d");
+
+	body = document.getElementById("body").innerHTML;
+
+	dimensions.push(canvas.width);
+	dimensions.push(canvas.height);
 
 
 	document.addEventListener("mousedown", function( event ) {
@@ -33,6 +48,8 @@ window.onload = function(){
 	}, false);
 
 	document.addEventListener("mousemove", function( event ) {
+		cursorPos = [event.clientX, event.clientY];
+
 		var rect = canvas.getBoundingClientRect();
 		var x = event.clientX - rect.left;
 		var y = event.clientY - rect.top;
@@ -53,6 +70,41 @@ window.onload = function(){
 			lines[dragIndex][0] = x;
 			lines[dragIndex][1] = y;
 		}
+	}, false);
+
+	document.addEventListener("keyup", function(event){
+//		console.log(event.key + " - " + cursorPos[0] + "|" + cursorPos[1]);
+		if(event.key == "+"){
+			var rect = canvas.getBoundingClientRect();
+			var x = cursorPos[0] - rect.left;
+			var y = cursorPos[1] - rect.top;
+			lines.push([x, y]);
+			if(lines.length > 1){
+				points.push([]);
+				for(var i = 0; i < points.length; i++){
+					points[i].push([]);
+				}
+			}
+			
+			document.getElementById("numberInput").value = lines.length - 1;
+		}/*else if(event.key == "f" || event.key == "F"){
+			fullscreen = !fullscreen;
+			if(fullscreen){
+				document.getElementById("body").innerHTML = "<canvas width=\"" + window.innerWidth + "\" height=\"" + window.innerHeight + "\" id=\"canvas\"></canvas><br>";
+				canvas = document.getElementById("canvas");
+				gc 		= canvas.getContext("2d");
+
+				document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+    			document.body.scroll = "no"; // ie only
+			}else{
+				document.getElementById("body").innerHTML = body;
+				canvas = document.getElementById("canvas");
+				gc 		= canvas.getContext("2d");
+
+				document.documentElement.style.overflow = 'auto';  // firefox, chrome
+    			document.body.scroll = "yes"; // ie only
+			}
+		}*/
 	}, false);
 
 
@@ -103,31 +155,52 @@ function update(){
 		}
 	}
 
-	if(lines.length > 0){
+	if(lines.length > 1){
 		curve.push([points[points.length - 1][0][0], points[points.length - 1][0][1]]);
 	}
 	render();
 
 //	console.log(step);
+//	console.log(lines);
+//	console.log(points);
 }
 
 function render(){
+	if(!fullscreen){
+		backgroundColor = document.getElementById("backgroundColor").value;
+		gridColor 		= document.getElementById("gridColor").value;
+		basicsColor 	= document.getElementById("basicsColor").value;
+		calcColor 		= document.getElementById("calcColor").value;
+		curveColor 		= document.getElementById("curveColor").value;
+	}
+	
 	//background
-	gc.fillStyle = "#C0C0C0";
+	gc.fillStyle = backgroundColor;
 	gc.fillRect(0, 0, canvas.width, canvas.height);
+
+	//grid
+	var steps = 20;
+	if(document.getElementById("gridCheck").checked){
+		for(var i = 0; i < canvas.width / steps; i++){
+			drawLine([steps * i, 0], [steps * i, canvas.height], gridColor, 0.25);
+		}
+		for(var i = 0; i < canvas.height / steps; i++){
+			drawLine([0, steps * i], [canvas.width, steps * i], gridColor, 0.25);
+		}
+	}
 
 	//draw base lines + circles
 	if(document.getElementById("pointLinesCheck").checked){
-		drawLines(lines, "#202020", 1);
+		drawLines(lines, basicsColor, 1);
 	}
-	drawCircles(lines, "#202020", 2.5, 1);
-	drawCircles(lines, "#202020", 4.5, 1);
+	drawCircles(lines, basicsColor, 2.5, 1);
+	drawCircles(lines, basicsColor, 4.5, 1);
 
 	//draw other linse + points
 	for(var i = 0; i < points.length; i++){
 		if(document.getElementById("calcLinesCheck").checked){
-			drawLines(points[i], "#505050", 1);
-			drawCircles(points[i], "#505050", 1.5, 1);
+			drawLines(points[i], calcColor, 1);
+			drawCircles(points[i], calcColor, 1.5, 1);
 		}
 	}
 	if(lines.length > 0){
@@ -136,17 +209,12 @@ function render(){
 		gc.stroke();
 	}
 
-	drawLines(curve, "#DAF7A6", 3);
+	drawLines(curve, curveColor, 3);
 }
 
 function drawLines(list, color, width){
-	gc.strokeStyle = color;
-	gc.lineWidth = width;
 	for(var i = 0; i < list.length - 1; i++){
-		gc.beginPath();
-		gc.moveTo(list[i][0], list[i][1]);
-		gc.lineTo(list[i + 1][0], list[i + 1][1])
-		gc.stroke();
+		drawLine(list[i], list[i + 1], color, width);
 	}
 }
 
@@ -158,4 +226,13 @@ function drawCircles(list, color, radius, width){ //void ctx.arc(x, y, radius, s
 		gc.arc(list[i][0], list[i][1], radius, 0, 2 * Math.PI, false);
 		gc.stroke();
 	}
+}
+
+function drawLine(pos1, pos2, color, width){
+	gc.strokeStyle = color;
+	gc.lineWidth = width;
+	gc.beginPath();
+	gc.moveTo(pos1[0], pos1[1]);
+	gc.lineTo(pos2[0], pos2[1]);
+	gc.stroke();
 }

@@ -1,10 +1,9 @@
 *{
 	font-family: Comic Sans MS;
+	padding: 0;
+	margin: 0;
 }
 
-body{
-	padding: 2% 20% 2% 20%;
-}
 
 body:hover{
 	cursor: default;
@@ -12,10 +11,22 @@ body:hover{
 
 h1{
 	color: #1F618D;
-	margin-left: 40%;
+	margin-left: 20%;
 }
 
 #container{
 	margin: auto;
 	display: inline-block;
 }
+
+table{
+	border-collapse: collapse;
+	margin: 10px;
+}
+
+table *{
+	border: 1px solid grey;
+}
+
+table input{
+	padding: 0px;
