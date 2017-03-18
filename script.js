@@ -1,40 +1,24 @@
-var step = 0;
-var lines = [];
-var points = [];
-var dragIndex = -1;
-var down = 0;
-var curve = [];
-var cursorPos = [];
-var dimensions = [];
-var fullscreen = false;
-var body = "";
-var aniSpeed = 0.5;
+var step = 0,
+    lines = [],
+    points = [],
+    dragIndex = -1,
+    down = 0,
+    curve = [],
+    cursorPos = [],
+    dimensions = [],
+    fullscreen = false,
+    body = "",
+    aniSpeed = 0.5,
+    oldAniSpeed = 0.5,
 
-var backgroundColor;
-var gridColor;
-var basicsColor;
-var calcColor;
-var curveColor;
+    backgroundColor;
+    gridColor,
+    basicsColor,
+    calcColor,
+    curveColor,
 
-var slider = document.getElementById('range-slider');
-var range = document.getElementById('.range-slider__range');
-var value = document.getElementById('.range-slider__value');
-var rangeSlider = function(){
-    //slider.each(function(){
-
-      //  value.each(function(){
-            var value = $(this).prev().attr('value');
-            //$(this).html(value);
-        //});
-
-        range.on('input', function(){
-            //$(this).next(value).html(range["0"].valueAsNumber/100);
-            value.innerHTML(range.valueAsNumber/100)
-            aniSpeed = range["0"].valueAsNumber/200;
-            //console.log(range["0"].valueAsNumber);
-        });
-    //});
-};
+    range = document.getElementById("range-slider__range"),
+    value = document.getElementById('range-slider__number');
 
 window.onload = function(){
     canvas = document.getElementById("canvas");
@@ -96,6 +80,7 @@ window.onload = function(){
     document.addEventListener("keyup", function(event){
 //		console.log(event.key + " - " + cursorPos[0] + "|" + cursorPos[1]);
         if(event.key == "+"){
+            resetCurve();
             var rect = canvas.getBoundingClientRect();
             var x = cursorPos[0] - rect.left;
             var y = cursorPos[1] - rect.top;
@@ -132,6 +117,14 @@ window.onload = function(){
     setInterval(update, 1000/20);
 }
 
+function updateSpeed() {
+    var val = range.valueAsNumber;
+    //value.innerHTML = Math.pow(val/100,1.58496250).toFixed(3);
+    value.value = Math.pow(val/100,1.58496250).toFixed(3);
+    aniSpeed = Math.pow(val/100,1.58496250);
+    //console.log(aniSpeed);
+}
+
 function changeNumber(){
     if(document.getElementById("numberInput").value <= 1){
         document.getElementById("numberInput").value = 1;		//MIN
@@ -139,7 +132,7 @@ function changeNumber(){
    document.getElementById("numberInput").value = 100;		//MAX
    }*/
     number = document.getElementById("numberInput").value;
-
+    resetCurve();
     lines = [];
     points = [];
     for(var i = -1; i < number; i++){
@@ -156,12 +149,9 @@ function changeNumber(){
 
 function update(){
 
-    step = step + aniSpeed;
-    if(step > 100) step = 0;
+    step = step + aniSpeed/2;
+    if(step > 100) resetCurve();
 
-    if(step == 0){
-        curve = []
-    }
     //calc lines and points
     for(var i = 0; i < lines.length - 1; i++){
         var dX = lines[i + 1][0] - lines[i][0];
@@ -261,4 +251,7 @@ function drawLine(pos1, pos2, color, width){
     gc.stroke();
 }
 
-rangeSlider();
+function resetCurve() {
+    curve = [];
+    step = 0;
+}
