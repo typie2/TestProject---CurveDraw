@@ -5,8 +5,6 @@ It's just a test so there is no fancy documentation.
 
 Be free to edit some of the code!
 
-https://dragere.github.io/TestProject---CurveDraw/
-
 ##Screenshots
 ![curvedraw_screenshot2](https://cloud.githubusercontent.com/assets/26347123/23832089/8c311208-072e-11e7-95d4-a4a156971bf6.PNG)
 Curve with just three lines.

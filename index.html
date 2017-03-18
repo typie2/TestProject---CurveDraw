@@ -15,9 +15,9 @@
       <input type="checkbox" name="pointLinesCheck" id="pointLinesCheck" checked="checked"> <label>Show lines between points</label>
       <input type="checkbox" name="gridCheck" id="gridCheck">                               <label>Show grid</label>
       <div class="range-slider" id="range-slider">
-        <input class="range-slider__range" id="range-slider__range" name="range-slider__range" type="range" step="any" oninput="updateSpeed()" value="100" min="0" max="200">
+        <input class="range-slider__range" id="range-slider__range" name="range-slider__range" type="range" step="any" oninput="updateSpeed('s')" value="100" min="0" max="200">
         <span class="range-slider__value" id="range-slider__value" name="range-slider__value">
-          <input type="number" step="any" class="range-slider__number" id="range-slider__number" name="range-slider__number" onchange="updateSpeed()" width="60" height="30">
+          <input type="number" step="any" class="range-slider__number" id="range-slider__number" name="range-slider__number" onchange="updateSpeed('n')" width="60" height="30">
         </span>
       </div>
       <table>

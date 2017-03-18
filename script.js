@@ -117,12 +117,19 @@ window.onload = function(){
     setInterval(update, 1000/20);
 }
 
-function updateSpeed() {
-    var val = range.valueAsNumber;
-    //value.innerHTML = Math.pow(val/100,1.58496250).toFixed(3);
-    value.value = Math.pow(val/100,1.58496250).toFixed(3);
-    aniSpeed = Math.pow(val/100,1.58496250);
-    //console.log(aniSpeed);
+function updateSpeed(o) {
+    if(o == 's') {
+        var val = range.valueAsNumber;
+        aniSpeed = Math.pow(val/100,1.58496250);
+    }else if(o == 'n') {
+        var val = value.value;
+        aniSpeed = val;
+    }
+    value.value = aniSpeed.toFixed(3);
+    range.valueAsNumber = 100*Math.pow(aniSpeed,80000/126797);
+    //value.value = aniSpeed.toFixed(3);
+    //range.valueAsNumber = val;
+    ////console.log(aniSpeed);
 }
 
 function changeNumber(){
