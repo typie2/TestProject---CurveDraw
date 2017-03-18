@@ -1,24 +1,3 @@
-var rangeSlider = function(){
-    var slider = $('.range-slider'),
-        range = $('.range-slider__range'),
-        value = $('.range-slider__value');
-
-    slider.each(function(){
-
-        value.each(function(){
-            var value = $(this).prev().attr('value');
-            $(this).html(value);
-        });
-
-        range.on('input', function(){
-            //$(this).next(value).html(this.value);
-            $(this).next(value).html(range["0"].valueAsNumber/100*2);
-            aniSpeed = range["0"].valueAsNumber/100;
-            //console.log(range["0"].valueAsNumber);
-        });
-    });
-};
-
 var step = 0;
 var lines = [];
 var points = [];
@@ -36,6 +15,26 @@ var gridColor;
 var basicsColor;
 var calcColor;
 var curveColor;
+
+var slider = document.getElementById('range-slider');
+var range = document.getElementById('.range-slider__range');
+var value = document.getElementById('.range-slider__value');
+var rangeSlider = function(){
+    //slider.each(function(){
+
+      //  value.each(function(){
+            var value = $(this).prev().attr('value');
+            //$(this).html(value);
+        //});
+
+        range.on('input', function(){
+            //$(this).next(value).html(range["0"].valueAsNumber/100);
+            value.innerHTML(range.valueAsNumber/100)
+            aniSpeed = range["0"].valueAsNumber/200;
+            //console.log(range["0"].valueAsNumber);
+        });
+    //});
+};
 
 window.onload = function(){
     canvas = document.getElementById("canvas");
@@ -110,23 +109,23 @@ window.onload = function(){
 
             document.getElementById("numberInput").value = lines.length - 1;
         }/*else if(event.key == "f" || event.key == "F"){
-		 fullscreen = !fullscreen;
-		 if(fullscreen){
-		 document.getElementById("body").innerHTML = "<canvas width=\"" + window.innerWidth + "\" height=\"" + window.innerHeight + "\" id=\"canvas\"></canvas><br>";
-		 canvas = document.getElementById("canvas");
-		 gc 		= canvas.getContext("2d");
+       fullscreen = !fullscreen;
+       if(fullscreen){
+       document.getElementById("body").innerHTML = "<canvas width=\"" + window.innerWidth + "\" height=\"" + window.innerHeight + "\" id=\"canvas\"></canvas><br>";
+       canvas = document.getElementById("canvas");
+       gc 		= canvas.getContext("2d");
 
-		 document.documentElement.style.overflow = 'hidden';  // firefox, chrome
-		 document.body.scroll = "no"; // ie only
-		 }else{
-		 document.getElementById("body").innerHTML = body;
-		 canvas = document.getElementById("canvas");
-		 gc 		= canvas.getContext("2d");
+       document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+       document.body.scroll = "no"; // ie only
+       }else{
+       document.getElementById("body").innerHTML = body;
+       canvas = document.getElementById("canvas");
+       gc 		= canvas.getContext("2d");
 
-		 document.documentElement.style.overflow = 'auto';  // firefox, chrome
-		 document.body.scroll = "yes"; // ie only
-		 }
-		 }*/
+       document.documentElement.style.overflow = 'auto';  // firefox, chrome
+       document.body.scroll = "yes"; // ie only
+       }
+       }*/
     }, false);
 
 
@@ -137,8 +136,8 @@ function changeNumber(){
     if(document.getElementById("numberInput").value <= 1){
         document.getElementById("numberInput").value = 1;		//MIN
     }/*else if(document.getElementById("numberInput").value >= 100){
-	 document.getElementById("numberInput").value = 100;		//MAX
-	 }*/
+   document.getElementById("numberInput").value = 100;		//MAX
+   }*/
     number = document.getElementById("numberInput").value;
 
     lines = [];
